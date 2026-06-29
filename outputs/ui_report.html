@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LangGraph Agent Lab Report</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1d2433;
+      --muted: #667085;
+      --line: #d9dee8;
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --accent: #0f766e;
+      --warn: #b42318;
+      --soft: #e8f3f1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    main { max-width: 1180px; margin: 0 auto; padding: 32px 20px 48px; }
+    h1 { margin: 0 0 8px; font-size: 32px; letter-spacing: 0; }
+    h2, h3 { letter-spacing: 0; }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .summary div, .scenario {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgb(16 24 40 / 0.04);
+    }
+    .summary div { padding: 16px; }
+    .summary span, .grid span { color: var(--muted); font-size: 13px; display: block; }
+    .summary strong { display: block; margin-top: 6px; font-size: 24px; }
+    .scenario { padding: 18px; margin-top: 16px; }
+    .scenario header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+    }
+    .scenario h2 { margin: 0 0 6px; font-size: 20px; }
+    .scenario p { margin: 0; color: var(--muted); }
+    .badge {
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-weight: 700;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .badge.ok { background: var(--soft); color: var(--accent); }
+    .badge.bad { background: #fee4e2; color: var(--warn); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .grid div { border: 1px solid var(--line); border-radius: 6px; padding: 10px; }
+    .grid strong { display: block; margin-top: 4px; }
+    section { margin-top: 16px; }
+    section h3 { margin: 0 0 8px; font-size: 15px; }
+    .answer {
+      background: #f9fafb;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 12px;
+      color: var(--ink);
+    }
+    ul, ol { margin: 0; padding-left: 22px; }
+    .timeline li { margin-bottom: 10px; }
+    .timeline span { margin-left: 8px; color: var(--muted); font-size: 12px; }
+    .timeline p { margin: 3px 0 0; }
+    @media (max-width: 640px) {
+      main { padding: 24px 12px 36px; }
+      .scenario header { display: block; }
+      .badge { display: inline-block; margin-top: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>LangGraph Agent Lab Report</h1>
+    <p>
+      Scenario execution dashboard with route quality, retries, approval, tool results,
+      and node timeline.
+    </p>
+    <section class="summary">
+      <div><span>Total scenarios</span><strong>7</strong></div>
+      <div><span>Success rate</span><strong>100.00%</strong></div>
+      <div><span>Average nodes</span><strong>6.43</strong></div>
+      <div><span>Total retries</span><strong>3</strong></div>
+      <div><span>Total approvals</span><strong>2</strong></div>
+    </section>
+    <article class="scenario">
+              <header>
+                <div>
+                  <h2>S01_simple</h2>
+                  <p>How do I reset my password?</p>
+                </div>
+                <span class="badge ok">PASS</span>
+              </header>
+              <div class="grid">
+                <div><span>Expected</span><strong>simple</strong></div>
+                <div><span>Actual</span><strong>simple</strong></div>
+                <div><span>Nodes</span><strong>4</strong></div>
+                <div><span>Retries</span><strong>0</strong></div>
+                <div><span>Approval</span><strong>no</strong></div>
+                <div><span>LLM</span><strong>offline_fallback / offline_fallback</strong></div>
+              </div>
+              <section>
+                <h3>Final Output</h3>
+                <p class="answer">To reset your password, open the login page, choose &#x27;Forgot password&#x27;, and follow the instructions sent to your email.</p>
+              </section>
+              <section>
+                <h3>Tool Results</h3>
+                <ul><li>none</li></ul>
+              </section>
+              <section>
+                <h3>Errors</h3>
+                <ul><li>none</li></ul>
+              </section>
+              <section>
+                <h3>Node Timeline</h3>
+                <ol class="timeline"><li><strong>intake</strong><span>completed</span><p>query normalized</p></li>
+<li><strong>classify</strong><span>completed</span><p>query classified as simple</p></li>
+<li><strong>answer</strong><span>completed</span><p>final answer generated</p></li>
+<li><strong>finalize</strong><span>completed</span><p>workflow finished</p></li></ol>
+              </section>
+            </article>
+<article class="scenario">
+              <header>
+                <div>
+                  <h2>S02_tool</h2>
+                  <p>Please lookup order status for order 12345</p>
+                </div>
+                <span class="badge ok">PASS</span>
+              </header>
+              <div class="grid">
+                <div><span>Expected</span><strong>tool</strong></div>
+                <div><span>Actual</span><strong>tool</strong></div>
+                <div><span>Nodes</span><strong>6</strong></div>
+                <div><span>Retries</span><strong>0</strong></div>
+                <div><span>Approval</span><strong>no</strong></div>
+                <div><span>LLM</span><strong>offline_fallback / offline_fallback</strong></div>
+              </div>
+              <section>
+                <h3>Final Output</h3>
+                <p class="answer">I checked the available system data: Order 12345 status: in transit; estimated delivery: 2 business days</p>
+              </section>
+              <section>
+                <h3>Tool Results</h3>
+                <ul><li>Order 12345 status: in transit; estimated delivery: 2 business days</li></ul>
+              </section>
+              <section>
+                <h3>Errors</h3>
+                <ul><li>none</li></ul>
+              </section>
+              <section>
+                <h3>Node Timeline</h3>
+                <ol class="timeline"><li><strong>intake</strong><span>completed</span><p>query normalized</p></li>
+<li><strong>classify</strong><span>completed</span><p>query classified as tool</p></li>
+<li><strong>tool</strong><span>completed</span><p>Order 12345 status: in transit; estimated delivery: 2 business days</p></li>
+<li><strong>evaluate</strong><span>completed</span><p>tool result evaluated as success</p></li>
+<li><strong>answer</strong><span>completed</span><p>final answer generated</p></li>
+<li><strong>finalize</strong><span>completed</span><p>workflow finished</p></li></ol>
+              </section>
+            </article>
+<article class="scenario">
+              <header>
+                <div>
+                  <h2>S03_missing</h2>
+                  <p>Can you fix it?</p>
+                </div>
+                <span class="badge ok">PASS</span>
+              </header>
+              <div class="grid">
+                <div><span>Expected</span><strong>missing_info</strong></div>
+                <div><span>Actual</span><strong>missing_info</strong></div>
+                <div><span>Nodes</span><strong>4</strong></div>
+                <div><span>Retries</span><strong>0</strong></div>
+                <div><span>Approval</span><strong>no</strong></div>
+                <div><span>LLM</span><strong>offline_fallback / n/a</strong></div>
+              </div>
+              <section>
+                <h3>Final Output</h3>
+                <p class="answer">Can you share the specific account, order, error message, or action you want help with?</p>
+              </section>
+              <section>
+                <h3>Tool Results</h3>
+                <ul><li>none</li></ul>
+              </section>
+              <section>
+                <h3>Errors</h3>
+                <ul><li>none</li></ul>
+              </section>
+              <section>
+                <h3>Node Timeline</h3>
+                <ol class="timeline"><li><strong>intake</strong><span>completed</span><p>query normalized</p></li>
+<li><strong>classify</strong><span>completed</span><p>query classified as missing_info</p></li>
+<li><strong>clarify</strong><span>completed</span><p>clarification requested</p></li>
+<li><strong>finalize</strong><span>completed</span><p>workflow finished</p></li></ol>
+              </section>
+            </article>
+<article class="scenario">
+              <header>
+                <div>
+                  <h2>S04_risky</h2>
+                  <p>Refund this customer and send confirmation email</p>
+                </div>
+                <span class="badge ok">PASS</span>
+              </header>
+              <div class="grid">
+                <div><span>Expected</span><strong>risky</strong></div>
+                <div><span>Actual</span><strong>risky</strong></div>
+                <div><span>Nodes</span><strong>8</strong></div>
+                <div><span>Retries</span><strong>0</strong></div>
+                <div><span>Approval</span><strong>yes</strong></div>
+                <div><span>LLM</span><strong>offline_fallback / offline_fallback</strong></div>
+              </div>
+              <section>
+                <h3>Final Output</h3>
+                <p class="answer">The approved action has been completed. Result: Risky action completed after approval: Review and execute the customer-impacting request only after approval: Refund this customer and send confirmation email</p>
+              </section>
+              <section>
+                <h3>Tool Results</h3>
+                <ul><li>Risky action completed after approval: Review and execute the customer-impacting request only after approval: Refund this customer and send confirmation email</li></ul>
+              </section>
+              <section>
+                <h3>Errors</h3>
+                <ul><li>none</li></ul>
+              </section>
+              <section>
+                <h3>Node Timeline</h3>
+                <ol class="timeline"><li><strong>intake</strong><span>completed</span><p>query normalized</p></li>
+<li><strong>classify</strong><span>completed</span><p>query classified as risky</p></li>
+<li><strong>risky_action</strong><span>completed</span><p>risky action prepared</p></li>
+<li><strong>approval</strong><span>completed</span><p>approval decision recorded</p></li>
+<li><strong>tool</strong><span>completed</span><p>Risky action completed after approval: Review and execute the customer-impacting request only after approval: Refund this customer and send confirmation email</p></li>
+<li><strong>evaluate</strong><span>completed</span><p>tool result evaluated as success</p></li>
+<li><strong>answer</strong><span>completed</span><p>final answer generated</p></li>
+<li><strong>finalize</strong><span>completed</span><p>workflow finished</p></li></ol>
+              </section>
+            </article>
+<article class="scenario">
+              <header>
+                <div>
+                  <h2>S05_error</h2>
+                  <p>Timeout failure while processing request</p>
+                </div>
+                <span class="badge ok">PASS</span>
+              </header>
+              <div class="grid">
+                <div><span>Expected</span><strong>error</strong></div>
+                <div><span>Actual</span><strong>error</strong></div>
+                <div><span>Nodes</span><strong>10</strong></div>
+                <div><span>Retries</span><strong>2</strong></div>
+                <div><span>Approval</span><strong>no</strong></div>
+                <div><span>LLM</span><strong>offline_fallback / offline_fallback</strong></div>
+              </div>
+              <section>
+                <h3>Final Output</h3>
+                <p class="answer">The issue was retried and completed successfully. Result: Order unknown status: in transit; estimated delivery: 2 business days</p>
+              </section>
+              <section>
+                <h3>Tool Results</h3>
+                <ul><li>ERROR: transient processing failure on attempt 1</li>
+<li>Order unknown status: in transit; estimated delivery: 2 business days</li></ul>
+              </section>
+              <section>
+                <h3>Errors</h3>
+                <ul><li>Retry attempt 1 scheduled</li>
+<li>ERROR: transient processing failure on attempt 1</li></ul>
+              </section>
+              <section>
+                <h3>Node Timeline</h3>
+                <ol class="timeline"><li><strong>intake</strong><span>completed</span><p>query normalized</p></li>
+<li><strong>classify</strong><span>completed</span><p>query classified as error</p></li>
+<li><strong>retry</strong><span>completed</span><p>retry attempt recorded</p></li>
+<li><strong>tool</strong><span>failed</span><p>ERROR: transient processing failure on attempt 1</p></li>
+<li><strong>evaluate</strong><span>completed</span><p>tool result evaluated as needs_retry</p></li>
+<li><strong>retry</strong><span>completed</span><p>retry attempt recorded</p></li>
+<li><strong>tool</strong><span>completed</span><p>Order unknown status: in transit; estimated delivery: 2 business days</p></li>
+<li><strong>evaluate</strong><span>completed</span><p>tool result evaluated as success</p></li>
+<li><strong>answer</strong><span>completed</span><p>final answer generated</p></li>
+<li><strong>finalize</strong><span>completed</span><p>workflow finished</p></li></ol>
+              </section>
+            </article>
+<article class="scenario">
+              <header>
+                <div>
+                  <h2>S06_delete</h2>
+                  <p>Delete customer account after support verification</p>
+                </div>
+                <span class="badge ok">PASS</span>
+              </header>
+              <div class="grid">
+                <div><span>Expected</span><strong>risky</strong></div>
+                <div><span>Actual</span><strong>risky</strong></div>
+                <div><span>Nodes</span><strong>8</strong></div>
+                <div><span>Retries</span><strong>0</strong></div>
+                <div><span>Approval</span><strong>yes</strong></div>
+                <div><span>LLM</span><strong>offline_fallback / offline_fallback</strong></div>
+              </div>
+              <section>
+                <h3>Final Output</h3>
+                <p class="answer">The approved action has been completed. Result: Risky action completed after approval: Review and execute the customer-impacting request only after approval: Delete customer account after support verification</p>
+              </section>
+              <section>
+                <h3>Tool Results</h3>
+                <ul><li>Risky action completed after approval: Review and execute the customer-impacting request only after approval: Delete customer account after support verification</li></ul>
+              </section>
+              <section>
+                <h3>Errors</h3>
+                <ul><li>none</li></ul>
+              </section>
+              <section>
+                <h3>Node Timeline</h3>
+                <ol class="timeline"><li><strong>intake</strong><span>completed</span><p>query normalized</p></li>
+<li><strong>classify</strong><span>completed</span><p>query classified as risky</p></li>
+<li><strong>risky_action</strong><span>completed</span><p>risky action prepared</p></li>
+<li><strong>approval</strong><span>completed</span><p>approval decision recorded</p></li>
+<li><strong>tool</strong><span>completed</span><p>Risky action completed after approval: Review and execute the customer-impacting request only after approval: Delete customer account after support verification</p></li>
+<li><strong>evaluate</strong><span>completed</span><p>tool result evaluated as success</p></li>
+<li><strong>answer</strong><span>completed</span><p>final answer generated</p></li>
+<li><strong>finalize</strong><span>completed</span><p>workflow finished</p></li></ol>
+              </section>
+            </article>
+<article class="scenario">
+              <header>
+                <div>
+                  <h2>S07_dead_letter</h2>
+                  <p>System failure cannot recover after multiple attempts</p>
+                </div>
+                <span class="badge ok">PASS</span>
+              </header>
+              <div class="grid">
+                <div><span>Expected</span><strong>error</strong></div>
+                <div><span>Actual</span><strong>error</strong></div>
+                <div><span>Nodes</span><strong>5</strong></div>
+                <div><span>Retries</span><strong>1</strong></div>
+                <div><span>Approval</span><strong>no</strong></div>
+                <div><span>LLM</span><strong>offline_fallback / n/a</strong></div>
+              </div>
+              <section>
+                <h3>Final Output</h3>
+                <p class="answer">The request could not be completed after the allowed retry attempts. It has been escalated for manual follow-up.</p>
+              </section>
+              <section>
+                <h3>Tool Results</h3>
+                <ul><li>none</li></ul>
+              </section>
+              <section>
+                <h3>Errors</h3>
+                <ul><li>Retry attempt 1 scheduled</li></ul>
+              </section>
+              <section>
+                <h3>Node Timeline</h3>
+                <ol class="timeline"><li><strong>intake</strong><span>completed</span><p>query normalized</p></li>
+<li><strong>classify</strong><span>completed</span><p>query classified as error</p></li>
+<li><strong>retry</strong><span>completed</span><p>retry attempt recorded</p></li>
+<li><strong>dead_letter</strong><span>completed</span><p>max retries exhausted</p></li>
+<li><strong>finalize</strong><span>completed</span><p>workflow finished</p></li></ol>
+              </section>
+            </article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,598 @@
+[
+  {
+    "thread_id": "thread-S01_simple",
+    "scenario_id": "S01_simple",
+    "query": "How do I reset my password?",
+    "route": "simple",
+    "risk_level": "low",
+    "attempt": 0,
+    "max_attempts": 3,
+    "final_answer": "To reset your password, open the login page, choose 'Forgot password', and follow the instructions sent to your email.",
+    "evaluation_result": "",
+    "pending_question": null,
+    "proposed_action": null,
+    "approval": null,
+    "messages": [
+      "intake:How do I reset my password?",
+      "classify:simple",
+      "answer:completed",
+      "finalize:completed"
+    ],
+    "tool_results": [],
+    "errors": [],
+    "events": [
+      {
+        "node": "intake",
+        "event_type": "completed",
+        "message": "query normalized",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "classify",
+        "event_type": "completed",
+        "message": "query classified as simple",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "answer",
+        "event_type": "completed",
+        "message": "final answer generated",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "finalize",
+        "event_type": "completed",
+        "message": "workflow finished",
+        "latency_ms": 0,
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "thread_id": "thread-S02_tool",
+    "scenario_id": "S02_tool",
+    "query": "Please lookup order status for order 12345",
+    "route": "tool",
+    "risk_level": "low",
+    "attempt": 0,
+    "max_attempts": 3,
+    "final_answer": "I checked the available system data: Order 12345 status: in transit; estimated delivery: 2 business days",
+    "evaluation_result": "success",
+    "pending_question": null,
+    "proposed_action": null,
+    "approval": null,
+    "messages": [
+      "intake:Please lookup order status for order 123",
+      "classify:tool",
+      "tool:completed",
+      "evaluate:success",
+      "answer:completed",
+      "finalize:completed"
+    ],
+    "tool_results": [
+      "Order 12345 status: in transit; estimated delivery: 2 business days"
+    ],
+    "errors": [],
+    "events": [
+      {
+        "node": "intake",
+        "event_type": "completed",
+        "message": "query normalized",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "classify",
+        "event_type": "completed",
+        "message": "query classified as tool",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "tool",
+        "event_type": "completed",
+        "message": "Order 12345 status: in transit; estimated delivery: 2 business days",
+        "latency_ms": 0,
+        "metadata": {
+          "attempt": 0
+        }
+      },
+      {
+        "node": "evaluate",
+        "event_type": "completed",
+        "message": "tool result evaluated as success",
+        "latency_ms": 0,
+        "metadata": {
+          "latest_result": "Order 12345 status: in transit; estimated delivery: 2 business days"
+        }
+      },
+      {
+        "node": "answer",
+        "event_type": "completed",
+        "message": "final answer generated",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "finalize",
+        "event_type": "completed",
+        "message": "workflow finished",
+        "latency_ms": 0,
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "thread_id": "thread-S03_missing",
+    "scenario_id": "S03_missing",
+    "query": "Can you fix it?",
+    "route": "missing_info",
+    "risk_level": "low",
+    "attempt": 0,
+    "max_attempts": 3,
+    "final_answer": "Can you share the specific account, order, error message, or action you want help with?",
+    "evaluation_result": "",
+    "pending_question": "Can you share the specific account, order, error message, or action you want help with?",
+    "proposed_action": null,
+    "approval": null,
+    "messages": [
+      "intake:Can you fix it?",
+      "classify:missing_info",
+      "clarify:requested",
+      "finalize:completed"
+    ],
+    "tool_results": [],
+    "errors": [],
+    "events": [
+      {
+        "node": "intake",
+        "event_type": "completed",
+        "message": "query normalized",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "classify",
+        "event_type": "completed",
+        "message": "query classified as missing_info",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "clarify",
+        "event_type": "completed",
+        "message": "clarification requested",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "finalize",
+        "event_type": "completed",
+        "message": "workflow finished",
+        "latency_ms": 0,
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "thread_id": "thread-S04_risky",
+    "scenario_id": "S04_risky",
+    "query": "Refund this customer and send confirmation email",
+    "route": "risky",
+    "risk_level": "high",
+    "attempt": 0,
+    "max_attempts": 3,
+    "final_answer": "The approved action has been completed. Result: Risky action completed after approval: Review and execute the customer-impacting request only after approval: Refund this customer and send confirmation email",
+    "evaluation_result": "success",
+    "pending_question": null,
+    "proposed_action": "Review and execute the customer-impacting request only after approval: Refund this customer and send confirmation email",
+    "approval": {
+      "approved": true,
+      "reviewer": "mock-reviewer",
+      "comment": "Auto-approved for offline lab execution."
+    },
+    "messages": [
+      "intake:Refund this customer and send confirmati",
+      "classify:risky",
+      "risky_action:prepared",
+      "approval:approved",
+      "tool:completed",
+      "evaluate:success",
+      "answer:completed",
+      "finalize:completed"
+    ],
+    "tool_results": [
+      "Risky action completed after approval: Review and execute the customer-impacting request only after approval: Refund this customer and send confirmation email"
+    ],
+    "errors": [],
+    "events": [
+      {
+        "node": "intake",
+        "event_type": "completed",
+        "message": "query normalized",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "classify",
+        "event_type": "completed",
+        "message": "query classified as risky",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "risky_action",
+        "event_type": "completed",
+        "message": "risky action prepared",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "approval",
+        "event_type": "completed",
+        "message": "approval decision recorded",
+        "latency_ms": 0,
+        "metadata": {
+          "approval": {
+            "approved": true,
+            "reviewer": "mock-reviewer",
+            "comment": "Auto-approved for offline lab execution."
+          }
+        }
+      },
+      {
+        "node": "tool",
+        "event_type": "completed",
+        "message": "Risky action completed after approval: Review and execute the customer-impacting request only after approval: Refund this customer and send confirmation email",
+        "latency_ms": 0,
+        "metadata": {
+          "attempt": 0
+        }
+      },
+      {
+        "node": "evaluate",
+        "event_type": "completed",
+        "message": "tool result evaluated as success",
+        "latency_ms": 0,
+        "metadata": {
+          "latest_result": "Risky action completed after approval: Review and execute the customer-impacting request only after approval: Refund this customer and send confirmation email"
+        }
+      },
+      {
+        "node": "answer",
+        "event_type": "completed",
+        "message": "final answer generated",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "finalize",
+        "event_type": "completed",
+        "message": "workflow finished",
+        "latency_ms": 0,
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "thread_id": "thread-S05_error",
+    "scenario_id": "S05_error",
+    "query": "Timeout failure while processing request",
+    "route": "error",
+    "risk_level": "low",
+    "attempt": 2,
+    "max_attempts": 3,
+    "final_answer": "The issue was retried and completed successfully. Result: Order unknown status: in transit; estimated delivery: 2 business days",
+    "evaluation_result": "success",
+    "pending_question": null,
+    "proposed_action": null,
+    "approval": null,
+    "messages": [
+      "intake:Timeout failure while processing request",
+      "classify:error",
+      "retry:1",
+      "tool:failed",
+      "evaluate:needs_retry",
+      "retry:2",
+      "tool:completed",
+      "evaluate:success",
+      "answer:completed",
+      "finalize:completed"
+    ],
+    "tool_results": [
+      "ERROR: transient processing failure on attempt 1",
+      "Order unknown status: in transit; estimated delivery: 2 business days"
+    ],
+    "errors": [
+      "Retry attempt 1 scheduled",
+      "ERROR: transient processing failure on attempt 1"
+    ],
+    "events": [
+      {
+        "node": "intake",
+        "event_type": "completed",
+        "message": "query normalized",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "classify",
+        "event_type": "completed",
+        "message": "query classified as error",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "retry",
+        "event_type": "completed",
+        "message": "retry attempt recorded",
+        "latency_ms": 0,
+        "metadata": {
+          "attempt": 1
+        }
+      },
+      {
+        "node": "tool",
+        "event_type": "failed",
+        "message": "ERROR: transient processing failure on attempt 1",
+        "latency_ms": 0,
+        "metadata": {
+          "attempt": 1
+        }
+      },
+      {
+        "node": "evaluate",
+        "event_type": "completed",
+        "message": "tool result evaluated as needs_retry",
+        "latency_ms": 0,
+        "metadata": {
+          "latest_result": "ERROR: transient processing failure on attempt 1"
+        }
+      },
+      {
+        "node": "retry",
+        "event_type": "completed",
+        "message": "retry attempt recorded",
+        "latency_ms": 0,
+        "metadata": {
+          "attempt": 2
+        }
+      },
+      {
+        "node": "tool",
+        "event_type": "completed",
+        "message": "Order unknown status: in transit; estimated delivery: 2 business days",
+        "latency_ms": 0,
+        "metadata": {
+          "attempt": 2
+        }
+      },
+      {
+        "node": "evaluate",
+        "event_type": "completed",
+        "message": "tool result evaluated as success",
+        "latency_ms": 0,
+        "metadata": {
+          "latest_result": "Order unknown status: in transit; estimated delivery: 2 business days"
+        }
+      },
+      {
+        "node": "answer",
+        "event_type": "completed",
+        "message": "final answer generated",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "finalize",
+        "event_type": "completed",
+        "message": "workflow finished",
+        "latency_ms": 0,
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "thread_id": "thread-S06_delete",
+    "scenario_id": "S06_delete",
+    "query": "Delete customer account after support verification",
+    "route": "risky",
+    "risk_level": "high",
+    "attempt": 0,
+    "max_attempts": 3,
+    "final_answer": "The approved action has been completed. Result: Risky action completed after approval: Review and execute the customer-impacting request only after approval: Delete customer account after support verification",
+    "evaluation_result": "success",
+    "pending_question": null,
+    "proposed_action": "Review and execute the customer-impacting request only after approval: Delete customer account after support verification",
+    "approval": {
+      "approved": true,
+      "reviewer": "mock-reviewer",
+      "comment": "Auto-approved for offline lab execution."
+    },
+    "messages": [
+      "intake:Delete customer account after support ve",
+      "classify:risky",
+      "risky_action:prepared",
+      "approval:approved",
+      "tool:completed",
+      "evaluate:success",
+      "answer:completed",
+      "finalize:completed"
+    ],
+    "tool_results": [
+      "Risky action completed after approval: Review and execute the customer-impacting request only after approval: Delete customer account after support verification"
+    ],
+    "errors": [],
+    "events": [
+      {
+        "node": "intake",
+        "event_type": "completed",
+        "message": "query normalized",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "classify",
+        "event_type": "completed",
+        "message": "query classified as risky",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "risky_action",
+        "event_type": "completed",
+        "message": "risky action prepared",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "approval",
+        "event_type": "completed",
+        "message": "approval decision recorded",
+        "latency_ms": 0,
+        "metadata": {
+          "approval": {
+            "approved": true,
+            "reviewer": "mock-reviewer",
+            "comment": "Auto-approved for offline lab execution."
+          }
+        }
+      },
+      {
+        "node": "tool",
+        "event_type": "completed",
+        "message": "Risky action completed after approval: Review and execute the customer-impacting request only after approval: Delete customer account after support verification",
+        "latency_ms": 0,
+        "metadata": {
+          "attempt": 0
+        }
+      },
+      {
+        "node": "evaluate",
+        "event_type": "completed",
+        "message": "tool result evaluated as success",
+        "latency_ms": 0,
+        "metadata": {
+          "latest_result": "Risky action completed after approval: Review and execute the customer-impacting request only after approval: Delete customer account after support verification"
+        }
+      },
+      {
+        "node": "answer",
+        "event_type": "completed",
+        "message": "final answer generated",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "finalize",
+        "event_type": "completed",
+        "message": "workflow finished",
+        "latency_ms": 0,
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "thread_id": "thread-S07_dead_letter",
+    "scenario_id": "S07_dead_letter",
+    "query": "System failure cannot recover after multiple attempts",
+    "route": "error",
+    "risk_level": "low",
+    "attempt": 1,
+    "max_attempts": 1,
+    "final_answer": "The request could not be completed after the allowed retry attempts. It has been escalated for manual follow-up.",
+    "evaluation_result": "",
+    "pending_question": null,
+    "proposed_action": null,
+    "approval": null,
+    "messages": [
+      "intake:System failure cannot recover after mult",
+      "classify:error",
+      "retry:1",
+      "dead_letter:completed",
+      "finalize:completed"
+    ],
+    "tool_results": [],
+    "errors": [
+      "Retry attempt 1 scheduled"
+    ],
+    "events": [
+      {
+        "node": "intake",
+        "event_type": "completed",
+        "message": "query normalized",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "classify",
+        "event_type": "completed",
+        "message": "query classified as error",
+        "latency_ms": 0,
+        "metadata": {
+          "source": "offline_fallback",
+          "fallback_reason": "RuntimeError"
+        }
+      },
+      {
+        "node": "retry",
+        "event_type": "completed",
+        "message": "retry attempt recorded",
+        "latency_ms": 0,
+        "metadata": {
+          "attempt": 1
+        }
+      },
+      {
+        "node": "dead_letter",
+        "event_type": "completed",
+        "message": "max retries exhausted",
+        "latency_ms": 0,
+        "metadata": {}
+      },
+      {
+        "node": "finalize",
+        "event_type": "completed",
+        "message": "workflow finished",
+        "latency_ms": 0,
+        "metadata": {}
+      }
+    ]
+  }
+]

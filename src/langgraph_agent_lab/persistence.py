@@ -5,6 +5,15 @@ from __future__ import annotations
 from typing import Any
 
 
+class _MemoryCheckpointerFallback:
+    """No-op checkpointer used when langgraph is unavailable locally."""
+
+    storage: dict[str, Any]
+
+    def __init__(self) -> None:
+        self.storage = {}
+
+
 def build_checkpointer(kind: str = "memory", database_url: str | None = None) -> Any | None:
     """Return a LangGraph checkpointer.
 
@@ -19,14 +28,24 @@ def build_checkpointer(kind: str = "memory", database_url: str | None = None) ->
     if kind == "none":
         return None
     if kind == "memory":
-        from langgraph.checkpoint.memory import MemorySaver
+        try:
+            from langgraph.checkpoint.memory import MemorySaver
+        except ImportError:
+            return _MemoryCheckpointerFallback()
 
         return MemorySaver()
     if kind == "sqlite":
-        raise NotImplementedError(
-            "TODO(student): implement SQLite checkpointer. "
-            "Hint: pip install langgraph-checkpoint-sqlite, then use SqliteSaver"
-        )
+        try:
+            import sqlite3
+
+            from langgraph.checkpoint.sqlite import SqliteSaver
+        except ImportError as exc:
+            raise RuntimeError("Install sqlite support: pip install '.[sqlite]'") from exc
+        if not database_url:
+            database_url = "checkpoints.sqlite"
+        conn = sqlite3.connect(database_url, check_same_thread=False)
+        conn.execute("PRAGMA journal_mode=WAL")
+        return SqliteSaver(conn)
     if kind == "postgres":
         raise NotImplementedError(
             "TODO(student): implement Postgres checkpointer (optional extension)"
